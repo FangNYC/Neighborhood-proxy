@@ -16,7 +16,7 @@ app.use(morgan('dev'));
 app.use(cors())
 app.use(express.static(path.join(__dirname, '/public')));
 
-// Add DAVID's API endpoints
+// Neighborhood API endpoints
 app.get('/listingdata', (req, res) => {
   let requestId = req.query.id;
   console.log('REQ id TO listingdata api', requestId);
