@@ -1,0 +1,30 @@
+{
+  "name": "neighborhood-proxy",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "server-dev": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FangNYC/Neighborhood-proxy.git"
+  },
+  "author": "KAP",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/FangNYC/Neighborhood-proxy/issues"
+  },
+  "homepage": "https://github.com/FangNYC/Neighborhood-proxy#readme",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "body-parser": "^1.18.3",
+    "cluster": "^0.7.7",
+    "cors": "^2.8.5",
+    "express": "^4.16.4",
+    "morgan": "^1.9.1",
+    "nodemon": "^1.18.6",
+    "path": "^0.12.7"
+  }
+}
