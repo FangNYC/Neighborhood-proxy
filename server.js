@@ -1,7 +1,7 @@
 require('newrelic');
 
 const express = require('express');
-const morgan = require('morgan');
+// const morgan = require('morgan');
 const path = require('path');
 const axios = require('axios');
 const parser = require("body-parser");
@@ -14,34 +14,34 @@ const port = 7000;
 const { services } = require('./configs');
 
 app.use(parser.json());
-app.use(morgan('dev'));
+// app.use(morgan('dev'));
 app.use(cors())
 app.use(express.static(path.join(__dirname, '/public')));
 
 // Neighborhood API endpoints
-app.get('/listingdata', (req, res) => {
-  let requestId = req.query.id;
-  requestId = requestId.slice(-3) * 1;
-  axios.get(`http://localhost:3001/api/listingdata?id=${requestId}`)
-  .then((results) => res.send(results.data))
-  .catch((err) => console.error(err));
-})
+// app.get('/listingdata', (req, res) => {
+//   let requestId = req.query.id;
+//   requestId = requestId.slice(-3) * 1;
+//   axios.get(`http://localhost:3001/api/listingdata?id=${requestId}`)
+//   .then((results) => res.send(results.data))
+//   .catch((err) => console.error(err));
+// })
 
-app.get('/neighborhooddata', (req, res) => {
-  let requestId = req.query.id;
-  requestId = requestId.slice(-3) * 1;
-  axios.get(`http://localhost:3001/api/neighborhooddata?id=${requestId}`)
-  .then((results) => res.send(results.data))
-  .catch((err) => console.error(err));
-})
+// app.get('/neighborhooddata', (req, res) => {
+//   let requestId = req.query.id;
+//   requestId = requestId.slice(-3) * 1;
+//   axios.get(`http://localhost:3001/api/neighborhooddata?id=${requestId}`)
+//   .then((results) => res.send(results.data))
+//   .catch((err) => console.error(err));
+// })
 
-app.get('/landmarkdata', (req, res) => {
-  let lat = req.query.listingLat;
-  let long = req.query.listingLong;
-  axios.get(`http://localhost:3001/api/landmarkdata?listingLat=${lat}&listingLong=${long}`)
-  .then((results) => res.send(results.data))
-  .catch((err) => console.error(err));
-})
+// app.get('/landmarkdata', (req, res) => {
+//   let lat = req.query.listingLat;
+//   let long = req.query.listingLong;
+//   axios.get(`http://localhost:3001/api/landmarkdata?listingLat=${lat}&listingLong=${long}`)
+//   .then((results) => res.send(results.data))
+//   .catch((err) => console.error(err));
+// })
 
 // Add STACY's API endpoints
 // app.get('/ratings', (req, res) => {
