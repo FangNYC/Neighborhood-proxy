@@ -20,3 +20,23 @@ a {
 a:hover {
   text-decoration: underline;
 }
+
+.container-left {
+  float: left;
+  padding-left: 24px;
+  width: 55%;
+}
+
+.container-right {
+  float: right;
+  position: fixed;
+  left: 760px;
+  top: 20px;
+  right: 5%;
+}
+
+#description {
+  margin-left: -94.5px;
+  margin-top: 20px;
+  margin-bottom: 5px;
+}

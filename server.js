@@ -1,116 +1,80 @@
-require('newrelic');
-
 const express = require('express');
-// const morgan = require('morgan');
 const path = require('path');
 const axios = require('axios');
 const parser = require("body-parser");
 const app = express();
 const cors = require('cors');
-
-const port = 7000;
-
-// const { template } = require('./template');
+const morgan = require('morgan');
+const LOADER_CONFIG_KEY = process.env.loaderConfigKey;
 const { services } = require('./configs');
 
+const port = process.env.PORT || 7000;
+
+app.use(morgan('dev'));
 app.use(parser.json());
-// app.use(morgan('dev'));
 app.use(cors())
 app.use(express.static(path.join(__dirname, '/public')));
 
-// Neighborhood API endpoints
-// app.get('/listingdata', (req, res) => {
-//   let requestId = req.query.id;
-//   requestId = requestId.slice(-3) * 1;
-//   axios.get(`http://localhost:3001/api/listingdata?id=${requestId}`)
-//   .then((results) => res.send(results.data))
-//   .catch((err) => console.error(err));
-// })
+// Ratings API 
+app.get('/ratings', (req, res) => {
+  axios.get(`http://ec2-18-217-147-14.us-east-2.compute.amazonaws.com${req.url}`)
+    .then((results) => {
+      res.send(results.data);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.send();
+    });
+});
 
-// app.get('/neighborhooddata', (req, res) => {
-//   let requestId = req.query.id;
-//   requestId = requestId.slice(-3) * 1;
-//   axios.get(`http://localhost:3001/api/neighborhooddata?id=${requestId}`)
-//   .then((results) => res.send(results.data))
-//   .catch((err) => console.error(err));
-// })
+app.get('/reviews', (req, res) => {
+  axios.get(`http://ec2-18-217-147-14.us-east-2.compute.amazonaws.com${req.url}`)
+    .then((results) => {
+      res.send(results.data);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.send();
+    });
+});
 
-// app.get('/landmarkdata', (req, res) => {
-//   let lat = req.query.listingLat;
-//   let long = req.query.listingLong;
-//   axios.get(`http://localhost:3001/api/landmarkdata?listingLat=${lat}&listingLong=${long}`)
-//   .then((results) => res.send(results.data))
-//   .catch((err) => console.error(err));
-// })
+app.get('/search', (req, res) => {
+  axios.get(`http://ec2-18-217-147-14.us-east-2.compute.amazonaws.com${req.url}`)
+    .then((results) => {
+      res.send(results.data);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.send();
+    });
+});
 
-// Add STACY's API endpoints
-// app.get('/ratings', (req, res) => {
-//   axios.get(`http://18.218.27.164${req.url}`)
-//     .then((results) => {
-//       // console.log(results.data);
-//       res.send(results.data);
-//     })
-//     .catch((err) => {
-//       console.error(err);
-//       res.send();
-//     });
-// });
+// Description API
+app.get('/description', (req, res) => {
+  axios.get(`http://167.99.20.35:4000${req.url}`)
+    .then((results) => {
+      res.send(results.data);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.send();
+    });
+});
 
-// app.get('/reviews', (req, res) => {
-//   axios.get(`http://18.218.27.164${req.url}`)
-//     .then((results) => {
-//       // console.log(results.data);
-//       res.send(results.data);
-//     })
-//     .catch((err) => {
-//       console.error(err);
-//       res.send();
-//     });
-// });
+// Loader.io access key
+app.get(`/${LOADER_CONFIG_KEY}`, (req, res) => {
+  res.send(`${LOADER_CONFIG_KEY}`)
+})
 
-// app.get('/search', (req, res) => {
-//   axios.get(`http://18.218.27.164${req.url}`)
-//     .then((results) => {
-//       // console.log(results.data);
-//       res.send(results.data);
-//     })
-//     .catch((err) => {
-//       console.error(err);
-//       res.send();
-//     });
-// });
+// Test route
+app.get('/test', (req, res) => {
+  res.send('Test - proxy')
+})
 
-// // Add Dev's API endpoints
-// app.get('/description', (req, res) => {
-//   axios.get(`http://52.14.238.117${req.url}`)
-//     .then((results) => {
-//       res.send(results.data);
-//     })
-//     .catch((err) => {
-//       console.error(err);
-//       res.send();
-//     });
-// });
-
-// // Add Louis's API endpoints
-// app.get('/bookinglisting/:id', (req, res)=>{ 
-//   let id = req.params.id
-//   axios.get(`http://18.216.104.91/bookinglisting/${id}`)
-//   .then((results) => {
-//     res.send(results.data)
-//   })
-//   .catch((err) => {
-//     console.error(err)
-//   });
-// })
-
-// app.get('/*', (req, res) => {
-//   res.sendFile(path.join(__dirname, './public/index.html'));
-// })
-
+// Public endpoint
 app.get('/listing', (req, res) => {
   Promise.all([
-    axios.get('http://localhost:3001/renderNeighborhood', {
+    axios.get('http://ec2-3-17-56-15.us-east-2.compute.amazonaws.com/renderNeighborhood', {
       params: {
         id: req.query.id
       }
@@ -129,14 +93,14 @@ app.get('/listing', (req, res) => {
       <head>
         <meta charset="UTF-8">
         <title>Staybnb</title>
-        <!-- <link rel="stylesheet" type="text/css" href="https://localhost:3001/styles.css"> -->
+        <!-- <link rel="stylesheet" type="text/css" href="http://ec2-3-17-56-15.us-east-2.compute.amazonaws.com/styles.css"> -->
       </head>
       <body>
         <script crossorigin src="https://unpkg.com/react@16/umd/react.production.min.js"></script>
         <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"></script>
         <link rel="stylesheet" type="text/css" href="/styles.css">
-        <script src="http://localhost:3001/app.js"></script>
-      
+        <link type="text/css" rel="stylesheet" href="http://ec2-54-209-75-211.compute-1.amazonaws.com/guestBar.css">
+        <link type="text/css" rel="stylesheet" href="http://ec2-18-217-147-14.us-east-2.compute.amazonaws.com/style.css">        
         <div id="description"></div>
         <div class="container-left">
             <div id="reviews"></div>
@@ -145,10 +109,13 @@ app.get('/listing', (req, res) => {
         <div class=container-right>
           <div id="booking"></div>
         </div>
+        <script src="http://167.99.20.35:4000/bundle.js"></script>
+        <script src="http://ec2-54-209-75-211.compute-1.amazonaws.com/bundle.js"></script>
+        <script src="http://ec2-18-217-147-14.us-east-2.compute.amazonaws.com/bundle.js"></script>
         <script>
-          ReactDOM.hydrate(
-            React.createElement(Neighborhood, ${props[0]}),
-            document.getElementById('neighborhood')
+          ReactDOM.render(
+            React.createElement(Reviews),
+            document.getElementById('reviews')
           );
         </script>
       </body>
@@ -156,42 +123,6 @@ app.get('/listing', (req, res) => {
     `)
   })
 });
-
-
-// app.get('/rooms/:id', function(req, res) {
-//   const id = req.params.id;
-//   console.log('REQ TO PROXY', id)
-//   console.log(services[0].url)
-//   axios
-//     .get(`${services[0].}/getRoom/${id}`)
-//     .then(
-//       ({
-//         data: { initialState, nav, modal, description, gallery, relatedListings }
-//       }) => {
-//         const html = template(
-//           initialState,
-//           nav,
-//           modal,
-//           description,
-//           gallery,
-//           relatedListings
-//         );
-//         res.status(200).send(html);
-//       }
-//     )
-//     .catch(e => console.log('there is an error!', e));
-// });
-
-// Neighborhood API endpoints
-// app.get('/rooms/:id', function(req, res) {
-//   const id = req.params.id;
-//   axios
-//     .get(`http://localhost:3001/listingdata${id}`)
-//     .then((response) => {
-//       res.send(response.data)
-//     })
-//     .catch(e => console.log('there is an error!', e));
-// });
 
 app.listen(port, () => {
   console.log(`server running on port: ${port}`);
